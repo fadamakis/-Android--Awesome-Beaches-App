@@ -1,9 +1,23 @@
 package fadamakis.awesomebeach;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import model.Beach;
 
 
 public class BeachList extends Activity {
@@ -12,25 +26,59 @@ public class BeachList extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beach_list);
-    }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.beach_list, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        try {
+            readFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return super.onOptionsItemSelected(item);
+    }
+
+    public void readFile() throws IOException,JSONException{
+
+        InputStream is = this.getAssets().open("beaches.json");
+        int size = is.available();
+        byte[] buffer = new byte[size];
+        is.read(buffer);
+        is.close();
+        String bufferString = new String(buffer);
+        populateList(bufferString);
+    }
+
+    public void populateList(String bufferString) throws IOException,JSONException{
+
+        JSONArray jsonArray = new JSONArray(bufferString);
+        final ArrayList<Beach> beaches = new ArrayList<Beach>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObj = jsonArray.getJSONObject(i);
+            Beach beach = new Beach(jsonObj.getString("id"), jsonObj.getString("title"), jsonObj.getString("description"));
+            beaches.add(beach);
+        }
+
+        customList adapter = new customList(BeachList.this,R.layout.list_item,beaches);
+        ListView list = (ListView) findViewById(R.id.listView);
+        list.setDivider(null);
+        list.setDividerHeight(0);
+        list.setAdapter(adapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Toast.makeText(BeachList.this, (CharSequence) beaches.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(BeachList.this, BeachPage.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Beach", (Serializable) beaches.get(position));
+
+                intent.putExtras(bundle);
+
+                startActivity(intent);
+            }
+        });
+
     }
 }

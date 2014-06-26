@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "title": "Think Tank",
+    "address": "Idio Andron 7 (Milatou), Irákleion Irákleio",
+    "description": "Πολύ κρύο μαγαζί! Φθηνή διακόσμηση, πολύ βαβούρα. Πρόχειρο ντεκόρ! Φιλικό σέρβις. Γενικά αδιάφορο!"
+  },
+  {
+    "id": "2",
+    "title": "BAROLO Espresso & Wine Bar",
+    "address": "Περδικάρη 3 (Κοραή), Irákleion Irákleio",
+    "description": "Πολυ καλο σερβις και πολυ καλες και χαμηλες τιμες!"
+  },
+  {
+    "id": "3",
+    "title": "Χάλαβρο",
+    "address": "Μιλάτου 10 (Κοραή 9), 712 02, Irákleion Irákleio",
+    "description": "Πολυ όμορφος χώρος ειδικά για καλοκαίρι! Εχουν δώσει έμφαση στα coctails αλλα σαν γεύση δε λένε και πολλα."
+  },
+  {
+    "id": "4",
+    "title": "News Cafe",
+    "address": "Πάρκο Θεοτοκοπούλου (Μινωταύρου), 712 02, Irákleion Irákleio",
+    "description": "A reference point for lovers of coffee, a touch of freshness with lovely coctails and a feast for gourmets taste ...!"
+  }
+]
