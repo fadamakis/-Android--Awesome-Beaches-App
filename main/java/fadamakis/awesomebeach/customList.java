@@ -44,26 +44,21 @@ public class customList extends ArrayAdapter<Beach> {
 
             holder = new CustomHolder();
             holder.txtTitle = (TextView)row.findViewById(R.id.title_c);
-
-
-            InputStream ims = null;
-            try {
-                ims = context.getAssets().open(beach.getId() +".jpg");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            // load image as Drawable
-            Drawable d = Drawable.createFromStream(ims, null);
-            // set image to ImageView
-            row.setBackground(d);
             row.setTag(holder);
-
         }
         else
         {
             holder = (CustomHolder)row.getTag();
         }
 
+        InputStream ims = null;
+        try {
+            ims = context.getAssets().open("images/"+ beach.getSlug() +"/1.jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Drawable d = Drawable.createFromStream(ims, null);
+        row.setBackground(d);
         holder.txtTitle.setText(beach.getTitle());
 
         return row;

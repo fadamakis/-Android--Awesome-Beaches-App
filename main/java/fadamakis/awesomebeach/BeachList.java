@@ -3,6 +3,7 @@ package fadamakis.awesomebeach;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -53,14 +54,14 @@ public class BeachList extends Activity {
         final ArrayList<Beach> beaches = new ArrayList<Beach>();
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObj = jsonArray.getJSONObject(i);
-            Beach beach = new Beach(jsonObj.getString("id"), jsonObj.getString("title"), jsonObj.getString("description"));
+            Beach beach = new Beach(jsonObj.getString("slug"), jsonObj.getString("title"), jsonObj.getString("description"));
             beaches.add(beach);
         }
 
         customList adapter = new customList(BeachList.this,R.layout.list_item,beaches);
         ListView list = (ListView) findViewById(R.id.listView);
-        list.setDivider(null);
-        list.setDividerHeight(0);
+//        list.setDivider(null);
+        list.setDividerHeight(32);
         list.setAdapter(adapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener(){
@@ -68,8 +69,6 @@ public class BeachList extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Toast.makeText(BeachList.this, (CharSequence) beaches.get(position).getTitle(), Toast.LENGTH_SHORT).show();
-
                 Intent intent = new Intent(BeachList.this, BeachPage.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("Beach", (Serializable) beaches.get(position));
